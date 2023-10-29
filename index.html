@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Game</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />   
+    
+
+
+
+</head>
+
+<body>
+
+<!-- Nav Start -->
+    <nav class="navbar bg-body">
+        <div class="container-fluid mt-1">
+            <h1 class="mainheader mt-3">Code Game: Help the Lynx collect pine cones!</h1>
+            <a class="navbar-brand ps-2" href="#">
+                <img src="/img/w3logo.png" style="width:50px;">
+            </a>
+        </div>
+    </nav>
+<!-- Nav End -->
+
+
+
+<!-- Code Game Start -->
+<div class="codeGame-main mt-5" id="codeGame-main">
+  <div class="codeGame-render" id="codeGame-render">
+    <canvas id="canvas" width="700" height="700" ></canvas>
+  </div>
+  <div class="codeGame-control"> 
+    <div id="codeGame-gamebox" class="codeGame-control-sidebar codeGame-control-container" style="display: block;">
+      <div class="codeGame-control-upper">
+          <h1 id="codeGame-mainTitle" class="maintitle">Help the Lynx collect<br>pine cones!</h1>
+      </div>
+      <div id="codeGame-control-lower" class="codeGame-control-lower">
+        <div class="codeGame-control-code-container">
+          <div style="position: relative" class="codeGame-control-code-header">
+            <pre>Code Panel</pre>
+            <div id="codeGame-button" class="trash">
+              <i class="fa-solid fa-trash" style="color: #fff;"></i>
+            </div>
+           
+          </div>
+          <div id="codeGame-control-code-sequence" class="codeGame codeGame-control-code-sequence p-5" style="color: #fff;">
+            <p id="countdown"></p>
+        </div>
+        
+          <div class="codeGame-control-code-actions">
+            <div class="codeGame codeGame-control-buttons">
+              <div id="codeGame-button-left" class="button left"><i class="fa-solid fa-arrow-left" style="color: #fff;"></i></div>
+              <div id="codeGame-button-right" class="button forward"><i class="fa-solid fa-arrow-right" style="color: #fff;"></i></div>
+              <div id="codeGame-button-up" class="button right"><i class="fa-solid fa-arrow-up" style="color: #fff;"></i></div>
+              <div id="codeGame-button-down" class="button use"><i class="fa-solid fa-arrow-down" style="color: #fff;"></i></div>
+            </div>
+            <div class="codeGame codeGame-control-execute">
+              <div id="codeGame-button-play" class="button play"><i class="fa-solid fa-play pe-2" style="color: #fff;"></i>Play</div>
+            </div>
+          </div>
+          <div class="codeGame-control-code-container-level">
+            <p id="level">Level : 1</p>
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+<!-- Code Game End -->
+
+<!-- Footer Start -->
+    <footer class="bottomtext">
+        <p>
+            W3Schools is optimized for learning, testing, and training.
+            Examples might be simplified to improve reading and basic understanding.
+            Tutorials, references, and examples are constantly reviewed to avoid errors,
+            but we cannot warrant full correctness of all content.
+            While using this site, you agree to have read and accepted our
+            <a href="#">terms of use</a>,
+            <a href="#">cookie and privacy policy</a>.<br>
+            <a href="#">Copyright 1999-2023</a> by Refsnes Data.
+            All Rights Reserved.<br><br>
+        </p>
+
+    </footer>
+<!-- Footer End -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <script src="game.js"></script>
+   
+</body>
+
+</html>

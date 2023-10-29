@@ -1,0 +1,287 @@
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;400;700&family=Freckle+Face&family=Mulish:wght@400;600&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #c8e6f0;
+    overflow-x: hidden; /* Yatay kaydırmayı kapat */
+}
+
+/* Nav Style Start */
+.mainheader {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    font-family: 'Freckle Face';
+    font-size: 32px;
+}
+
+/* Nav Style End */
+
+/* Footer Style Start */
+.bottomtext {
+    text-align: center;
+    /* position:relative; */
+    padding: 0 20px;
+    font: 12px Source Sans Pro;
+    margin-top: 240px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.bottomtext a:link,
+.bottomtext a:visited {
+    color: #000 !important;
+}
+
+/* Footer Style End */
+
+/* Code Game Style Start */
+.codeGame-main {
+    display: block;
+    height: calc(100vh - 200px - 106px);
+    height: 250px;
+    margin-top: 50px;
+    background-color: #C8E6F0;
+}
+
+.codeGame-render {
+    height: 250px;
+    display: block;
+    margin: 0 5vw 0 5vw;
+}
+
+.codeGame-control {
+    display: block;
+    height: 500px;
+    width: 100%;
+    text-align: center;
+    align-items: center;
+}
+
+.codeGame-control-container {
+    flex: 1;
+}
+
+#codeGame-mainTitle {
+    display: block;
+    width: 100%;
+    font-size: 24px;
+    line-height: 25px;
+}
+
+.codeGame-control-code-header div.trash {
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    top: 3px;
+    right: 25px;
+    cursor: pointer;
+    transform: scale(0.9);
+}
+
+.codeGame-control-buttons {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-self: flex-end;
+    margin: 20px;
+}
+.btn {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-self: flex-end;
+    margin: 20px;
+}
+
+
+
+.codeGame div.button {
+    cursor: pointer;
+    width: 56px;
+    height: 56px;
+    padding: 12px;
+    margin-right: 12px;
+    border-radius: 8px;
+    border: 1px solid #141428;
+    border-radius: 8px;
+    background-color: transparent;
+    background-position: center;
+    background-origin: content-box;
+    background-repeat: no-repeat;
+}
+
+.maintitle {
+    font-family: Freckle Face;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 48px;
+    line-height: 50px;
+    letter-spacing: 0px;
+    color: #141428;
+    text-shadow: 1px 1px 0px #fff;
+}
+
+
+
+.codeGame-main {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    height: calc(100vh - 200px - 106px);
+    max-height: 700px;
+    max-width: 1500px;
+    min-width: 1025px;
+    min-height: 500px;
+    margin: auto;
+    margin-top: 10px;
+    background-color: #C8E6F0;
+}
+
+.codeGame-render {
+    margin: 0 5vw 0 5vw;
+}
+
+
+
+.codeGame-control {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.codeGame-control-lower {
+    margin-top: 48px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: calc((56 + 12) * 7px + (20 * 2px) + 2px);
+ 
+}
+
+.codeGame-control-code-container {
+    display: flex;
+    flex-direction: column;
+    background: #141428 0% 0% no-repeat padding-box;
+    border: 2px solid white;
+    border-radius: 8px;
+    box-shadow: 5px 5px rgba(0, 0, 0, 0.2);
+    opacity: 1;
+}
+.codeGame-control-code-container-level{
+    border-top: 1px solid white;
+    text-align: center; 
+    font-weight: bold; 
+    color: white;
+    padding: 10px 0;
+
+}
+
+.codeGame-control-code-header {
+    flex: 1;
+    opacity: 1;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid white;
+}
+
+.codeGame-control-code-header pre {
+    margin: 0;
+    padding: 0;
+    font-family: Source Sans Pro;
+    font-size: 10pt;
+    letter-spacing: 3.2px;
+    text-transform: uppercase;
+    text-align: center;
+    color: white;
+}
+
+.codeGame-control-code-sequence {
+    border-bottom: 1px solid white;
+    
+   
+      
+}
+
+.codeGame-control-code-actions {
+    flex: 4;
+    display: flex;
+    flex-direction: row;
+    min-height: fit-content;
+    background-color: transparent;
+    color: white;
+    font-weight: bold;
+}
+.codeGame-control-execute
+{
+    
+    display: flex;
+    flex-direction: row-reverse;
+    align-content: flex-end;
+    margin: 20px 20px 20px 20px;
+    
+}
+
+.codeGame-control-code-actions.drop {
+    background-color: #C80A3C;
+}
+
+
+.codeGame div.button.forward {
+    background-color: #0B7EF2;
+
+}
+
+.codeGame div.button.forward:hover {
+    transform: scale(1.1);
+}
+
+.codeGame div.button.left {
+    background-color: #E1460F;
+
+}
+
+.codeGame div.button.left:hover {
+    transform: scale(1.1);
+}
+
+.codeGame div.button.right {
+    background-color: #009A68;
+
+
+}
+
+.codeGame div.button.right:hover {
+    transform: scale(1.1);
+}
+
+.codeGame div.button.use {
+    background-color: #F07800;
+
+}
+
+.codeGame div.button.use:hover {
+    transform: scale(1.1);
+}
+.codeGame div.button.play {
+    width: 120px;
+    height: 56px;
+    border-radius: 8px;
+    background-color: #cc00f0;
+    justify-content: space-around;
+}
+
+.codeGame div.button.play:hover {
+    transform: scale(1.1);
+}
+
+/* Code Game Style End */
+
+
+

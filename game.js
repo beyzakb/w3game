@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+function initializeGame() {
     const c = document.getElementById("canvas");
     const ctx = c.getContext("2d");
 
@@ -10,15 +10,16 @@ document.addEventListener("DOMContentLoaded", function () {
     const gameTime = 6000;
 
     let countdown = 5;
-    let countdownInterval;
-    let level = 1; 
+    let countdownInterval = null;
+    let level = 1;
 
     function startCountdown() {
         countdownInterval = setInterval(function () {
             if (countdown === 0) {
                 clearInterval(countdownInterval);
                 updateCountdownDisplay("Süreniz Doldu");
-                setTimeout(startNewLevel, 1000); 
+                setTimeout(startNewLevel, 1000);
+                shakePlayer(1000);
             } else {
                 updateCountdownDisplay(countdown + " saniye");
                 countdown--;
@@ -26,12 +27,18 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 1000);
     }
 
-    function startNewLevel() {
+     function startNewLevel() {
         level++;
         countdown = 5;
         updateCountdownDisplay("Başlat");
         document.getElementById("level").textContent = `Level: ${level}`;
+        drawBoard();
         drawTarget();
+        
+        
+        // startCountdown();
+        // playButton.click();
+        
     }
 
     const countdownElement = document.getElementById("countdown");
@@ -42,8 +49,10 @@ document.addEventListener("DOMContentLoaded", function () {
         codePanelCountdownElement.textContent = message;
     }
 
-    startCountdown();
 
+
+
+    //oyun alanı
     const board = [];
 
     for (let row = 0; row < numRows; row++) {
@@ -59,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //oyuncu
     const img = new Image();
-    img.src = "/img/w3lynx_200.png";
+    img.src = "img/w3lynx_200.png";
     let imgX = 0;
     let imgY = 0;
 
@@ -81,54 +90,53 @@ document.addEventListener("DOMContentLoaded", function () {
         ctx.drawImage(img, x, y, tileSize, tileSize);
     }
 
-   
-let shakeStartTime = 0;
-let shakeIntensity = 10; 
 
+    //titreme
+    let shakeStartTime = 0;
+    let shakeIntensity = 10;
 
-function shakePlayer(duration) {
-    if (shakeStartTime === 0) {
-        shakeStartTime = Date.now();
+    function shakePlayer(duration) {
+        if (shakeStartTime === 0) {
+            shakeStartTime = Date.now();
 
-        const originalX = imgX; 
-        const originalY = imgY;
+            const originalX = imgX;
+            const originalY = imgY;
 
-        function updateShake() {
-            const currentTime = Date.now();
-            const elapsedTime = currentTime - shakeStartTime;
+            function updateShake() {
+                const currentTime = Date.now();
+                const elapsedTime = currentTime - shakeStartTime;
 
-            if (elapsedTime < duration) {
-                const xOffset = (Math.random() - 0.5) * shakeIntensity;
-                const yOffset = (Math.random() - 0.5) * shakeIntensity;
-                imgX = originalX + xOffset;
-                imgY = originalY + yOffset;
+                if (elapsedTime < duration) {
+                    const xOffset = (Math.random() - 0.5) * shakeIntensity;
+                    const yOffset = (Math.random() - 0.5) * shakeIntensity;
+                    imgX = originalX + xOffset;
+                    imgY = originalY + yOffset;
 
-               
-                ctx.clearRect(0, 0, c.width, c.height);
-                drawBoard();
-                drawImage(imgX, imgY);
+                    ctx.clearRect(0, 0, c.width, c.height);
+                    drawBoard();
+                    drawImage(imgX, imgY);
 
-                requestAnimationFrame(updateShake);
-            } else {
-                
-                imgX = originalX;
-                imgY = originalY;
-                ctx.clearRect(0, 0, c.width, c.height);
-                drawBoard();
-                drawImage(imgX, imgY);
+                    requestAnimationFrame(updateShake);
+                } else {
+                    imgX = originalX;
+                    imgY = originalY;
+                    ctx.clearRect(0, 0, c.width, c.height);
+                    drawBoard();
+                    drawImage(imgX, imgY);
 
-                shakeStartTime = 0; 
+                    shakeStartTime = 0;
+                }
             }
-        }
 
-        requestAnimationFrame(updateShake);
+            requestAnimationFrame(updateShake);
+        }
     }
-}
+
 
 
     //hedef
     const targetImg = new Image();
-    targetImg.src = "/img/cones.jpeg";
+    targetImg.src = "img/cones.jpeg";
     let targetX, targetY;
 
     function generateRandomPosition() {
@@ -140,22 +148,31 @@ function shakePlayer(duration) {
         return x1 === x2 && y1 === y2;
     }
 
+    targetImg.onload = function () {
+        drawTarget();
+    };
+
     function drawTarget() {
         generateRandomPosition();
         while (isColliding(targetX, targetY, imgX, imgY)) {
             generateRandomPosition();
         }
-        targetImg.onload = function () {
-            ctx.drawImage(targetImg, targetX, targetY, tileSize, tileSize);
-        };
+        ctx.drawImage(targetImg, targetX, targetY, tileSize, tileSize);
     }
 
     drawTarget();
 
+
+
+
+    //play butonu
     const playButton = document.getElementById("codeGame-button-play");
     playButton.addEventListener("click", function () {
-        if (countdownInterval) {
+        if (!countdownInterval) {
+            countdown = 5;
             startCountdown();
+            clearTimeout(timeout);
+            startGameTimer();
         }
         imgX = 0;
         imgY = 0;
@@ -165,19 +182,22 @@ function shakePlayer(duration) {
         updateCountdownDisplay(countdown + " saniye");
         codePanelCountdownElement.textContent = countdown + " saniye";
     });
-
-
+    
+    //temizle
     const trashButton = document.getElementById("codeGame-button");
     trashButton.addEventListener("click", function () {
-        level = 1; 
-        document.getElementById("level").textContent = `Level: ${level}`; 
-        countdown = 5; 
+        level = 1;
+        document.getElementById("level").textContent = `Level: ${level}`;
+        countdown = 5;
         updateCountdownDisplay("Başlat");
-        codePanelCountdownElement.textContent = "Başlat"; 
+        codePanelCountdownElement.textContent = "Başlat";
         imgY = 0;
         drawBoard();
         drawImage(imgX, imgY);
         drawTarget();
+        clearInterval(countdownInterval);
+        countdownInterval = null;
+        clearTimeout(timeout);
     });
 
     let successMessageVisible = false;
@@ -196,18 +216,17 @@ function shakePlayer(duration) {
         ctx.font = "30px Freckle Face";
         ctx.fillText("Başarılı!", 230, 250);
         codePanelCountdownElement.textContent = "Başarılı";
+        
 
         clearInterval(countdownInterval);
 
         successTimeout = setTimeout(() => {
             successMessageVisible = false;
-            // codePanelCountdownElement.textContent = ""; // Code paneldeki metni temizle
-            drawTarget();
-         
             ctx.clearRect(0, 0, c.width, c.height);
+            drawTarget();
             drawBoard();
             drawImage(imgX, imgY);
-            level++; // Seviyeyi artır
+            level++;
             document.getElementById("level").textContent = `Level: ${level}`;
         }, 1000);
     }
@@ -220,10 +239,9 @@ function shakePlayer(duration) {
             clearTimeout(successTimeout);
         }
         successMessageVisible = true;
-    
-        
+
         shakePlayer(1000);
-    
+
         ctx.clearRect(0, 0, c.width, c.height);
         drawBoard();
         drawImage(imgX, imgY);
@@ -232,20 +250,18 @@ function shakePlayer(duration) {
         ctx.fillText("Süreniz Doldu!", 180, 250);
         codePanelCountdownElement.textContent = "Süre Doldu";
         updateCountdownDisplay("Süre Doldu");
-    
+
         timeout = setTimeout(() => {
             successMessageVisible = false;
-            drawTarget();
             ctx.clearRect(0, 0, c.width, c.height);
+            drawTarget();
             drawBoard();
             drawImage(imgX, imgY);
             document.getElementById("level").textContent = `Level: 1`;
             level = 1;
         }, 3000);
     }
-    
-    
-    
+
     function startGameTimer() {
         timeout = setTimeout(() => {
             if (successMessageVisible) {
@@ -257,6 +273,10 @@ function shakePlayer(duration) {
 
     startGameTimer();
 
+
+
+
+    //hareketler butonlar
     document.addEventListener("keydown", function (event) {
         if (successMessageVisible) {
             return;
@@ -358,9 +378,17 @@ function shakePlayer(duration) {
         }
     });
 
+
+
+
+    //hareket ettikçe sayfa kaymasın
     document.addEventListener("keydown", function (event) {
         if (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "ArrowLeft" || event.key === "ArrowRight") {
             event.preventDefault();
         }
     });
-});
+}
+
+
+// Sayfa yüklendiğinde oyunu başlatmak için initializeGame
+document.addEventListener("DOMContentLoaded", initializeGame);

@@ -285,15 +285,28 @@ body {
 
 
 
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
+    .navbar {
+        
+        min-width: 1400px;
+
+    }
+
+    .container-fluid {
+        display: flex;
+        justify-content: space-between;
+        text-align: center;
+    }
+    
     .mainheader {
-        font-size: 24px;
+        max-width: 1200px;
+      
     }
 
     .bottomtext {
         position: fixed;
         bottom: 0;
-        width: 100%;
+        /* width: 100%; */
     }
 
     .codeGame-main {
@@ -310,8 +323,14 @@ body {
         margin: 0;
     }
 
+    .codeGame-render{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     .codeGame-control {
-        display: block;
+        display: flex;
         align-items: center;
     }
 }

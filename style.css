@@ -24,14 +24,14 @@ body {
 
 /* Footer Style Start */
 .bottomtext {
-    text-align: center;
-    /* position:relative; */
-    padding: 0 20px;
-    font: 12px Source Sans Pro;
-    margin-top: 240px;
     position: fixed;
     bottom: 0;
     width: 100%;
+    background-color: #c8e6f0;
+    text-align: center;
+    padding: 10px;
+    font: normal normal normal 12px Source Sans Pro;
+    z-index: 999;
 }
 
 .bottomtext a:link,
@@ -285,3 +285,33 @@ body {
 
 
 
+@media (max-width: 1024px) {
+    .mainheader {
+        font-size: 24px;
+    }
+
+    .bottomtext {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+    }
+
+    .codeGame-main {
+        display: block;
+    }
+
+    .codeGame-render,
+    .codeGame-control {
+        height: auto;
+        max-height: none;
+        max-width: none;
+        min-width: none;
+        min-height: auto;
+        margin: 0;
+    }
+
+    .codeGame-control {
+        display: block;
+        align-items: center;
+    }
+}

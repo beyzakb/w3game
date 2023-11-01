@@ -1,7 +1,9 @@
 function initializeGame() {
+    // Oyunun başlangıcında canvas ve context alınıyor.
     const c = document.getElementById("canvas");
     const ctx = c.getContext("2d");
 
+    // Oyun alanı parametreleri ve diğer değişkenler tanımlanıyor.
     const tileSize = 70;
     const numRows = 8;
     const numCols = 8;
@@ -10,37 +12,51 @@ function initializeGame() {
     const gameTime = 6000;
 
     let countdown = 5;
-    let countdownInterval = null;
+    let countdownInterval = false;
     let level = 1;
+    let successMessageVisible = false;
 
+    // Geri sayım başlatma fonksiyonu
     function startCountdown() {
         countdownInterval = setInterval(function () {
+            // Eğer başarı mesajı görünüyorsa, geri sayımı durdur
+            if (successMessageVisible) {
+                clearInterval(countdownInterval);
+                return;
+            }
+            // Eğer successMessageVisible true ise
+            if (successMessageVisible) {
+                // successMessageVisible'ı false yap
+                successMessageVisible = false;
+            }
+
+    
+            // Eğer geri sayım sıfıra ulaştıysa
             if (countdown === 0) {
                 clearInterval(countdownInterval);
                 updateCountdownDisplay("Süreniz Doldu");
                 setTimeout(startNewLevel, 1000);
                 shakePlayer(1000);
             } else {
+                // Geri sayımı güncelle ve bir saniye azalt
                 updateCountdownDisplay(countdown + " saniye");
                 countdown--;
             }
         }, 1000);
     }
+    
 
-     function startNewLevel() {
+    // Yeni seviye başlatma fonksiyonu
+    function startNewLevel() {
         level++;
         countdown = 5;
         updateCountdownDisplay("Başlat");
         document.getElementById("level").textContent = `Level: ${level}`;
         drawBoard();
         drawTarget();
-        
-        
-        // startCountdown();
-        // playButton.click();
-        
     }
 
+    // Sayacı güncelleme fonksiyonu
     const countdownElement = document.getElementById("countdown");
     const codePanelCountdownElement = document.getElementById("codeGame-control-code-sequence");
 
@@ -49,10 +65,7 @@ function initializeGame() {
         codePanelCountdownElement.textContent = message;
     }
 
-
-
-
-    //oyun alanı
+    // Oyun alanı oluşturma
     const board = [];
 
     for (let row = 0; row < numRows; row++) {
@@ -66,17 +79,19 @@ function initializeGame() {
         }
     }
 
-    //oyuncu
+    // Oyuncu resmi ve başlangıç konumu
     const img = new Image();
     img.src = "img/w3lynx_200.png";
     let imgX = 0;
     let imgY = 0;
 
+    // Oyuncu resmi yüklendikten sonra oyun alanını ve oyuncuyu çizme
     img.onload = function () {
         drawBoard();
         drawImage(imgX, imgY);
     };
 
+    // Oyun alanını çizme fonksiyonu
     function drawBoard() {
         for (let row = 0; row < numRows; row++) {
             for (let col = 0; col < numCols; col++) {
@@ -86,12 +101,12 @@ function initializeGame() {
         }
     }
 
+    // Oyuncu resmini çizme fonksiyonu
     function drawImage(x, y) {
         ctx.drawImage(img, x, y, tileSize, tileSize);
     }
 
-
-    //titreme
+    // Oyuncuyu titretme fonksiyonu
     let shakeStartTime = 0;
     let shakeIntensity = 10;
 
@@ -102,6 +117,7 @@ function initializeGame() {
             const originalX = imgX;
             const originalY = imgY;
 
+            // Titreme animasyonunu güncelleme fonksiyonu
             function updateShake() {
                 const currentTime = Date.now();
                 const elapsedTime = currentTime - shakeStartTime;
@@ -134,33 +150,42 @@ function initializeGame() {
 
 
 
+
     //hedef
     const targetImg = new Image();
     targetImg.src = "img/cones.jpeg";
     let targetX, targetY;
 
+    // Rastgele bir hedef pozisyonu oluşturan fonksiyon
     function generateRandomPosition() {
         targetX = Math.floor(Math.random() * numCols) * tileSize;
         targetY = Math.floor(Math.random() * numRows) * tileSize;
     }
 
+    // İki nokta arasında çarpışma kontrolü yapan fonksiyon
     function isColliding(x1, y1, x2, y2) {
         return x1 === x2 && y1 === y2;
     }
 
+    // Hedef resmi yüklendikten sonra hedefi çizme fonksiyonu
     targetImg.onload = function () {
         drawTarget();
     };
 
+    // Hedefi çizme fonksiyonu
     function drawTarget() {
+        // Hedefin pozisyonunu rastgele oluştur ve oyuncu ile çakışıyorsa tekrar oluştur
         generateRandomPosition();
         while (isColliding(targetX, targetY, imgX, imgY)) {
             generateRandomPosition();
         }
+        // Hedef resmini çiz
         ctx.drawImage(targetImg, targetX, targetY, tileSize, tileSize);
     }
 
+    // İlk hedefi çiz
     drawTarget();
+
 
 
 
@@ -168,12 +193,16 @@ function initializeGame() {
     //play butonu
     const playButton = document.getElementById("codeGame-button-play");
     playButton.addEventListener("click", function () {
-        if (!countdownInterval) {
-            countdown = 5;
+        if (true) {
+            if (successMessageVisible) {
+                // successMessageVisible'ı false yap
+                successMessageVisible = false;
+            }
             startCountdown();
             clearTimeout(timeout);
             startGameTimer();
         }
+        countdown = 5;
         imgX = 0;
         imgY = 0;
         drawBoard();
@@ -186,6 +215,7 @@ function initializeGame() {
     //temizle
     const trashButton = document.getElementById("codeGame-button");
     trashButton.addEventListener("click", function () {
+        // Oyunu sıfırla: seviyeyi, sayacı, görsel elemanları vb. başlangıç değerlerine döndür
         level = 1;
         document.getElementById("level").textContent = `Level: ${level}`;
         countdown = 5;
@@ -195,16 +225,18 @@ function initializeGame() {
         drawBoard();
         drawImage(imgX, imgY);
         drawTarget();
-        clearInterval(countdownInterval);
-        countdownInterval = null;
-        clearTimeout(timeout);
+        clearInterval(countdownInterval); // Sayacın interval'ını temizle
+        countdownInterval = false;
+        clearTimeout(timeout); // Timeout'ları temizle
     });
 
-    let successMessageVisible = false;
+
     let successTimeout;
     let timeout;
 
+    // Başarı mesajını gösteren fonksiyon
     function showSuccessMessage() {
+        
         if (successTimeout) {
             clearTimeout(successTimeout);
         }
@@ -217,9 +249,9 @@ function initializeGame() {
         ctx.fillText("Başarılı!", 230, 250);
         codePanelCountdownElement.textContent = "Başarılı";
         
-
-        clearInterval(countdownInterval);
-
+        clearInterval(countdownInterval); // Sayacın interval'ını temizle
+        countdown = 5;
+        // Belirli bir süre sonra başarı mesajını temizleyip oyunu devam ettir
         successTimeout = setTimeout(() => {
             successMessageVisible = false;
             ctx.clearRect(0, 0, c.width, c.height);
@@ -232,37 +264,43 @@ function initializeGame() {
     }
 
     function showTimeoutMessage() {
-        if (successMessageVisible) {
+        // Eğer başarı mesajı gösteriliyorsa veya başarı mesajı timeout'ı varsa, işlemi sonlandır
+        if (successMessageVisible || successTimeout) {
             return;
         }
-        if (successTimeout) {
-            clearTimeout(successTimeout);
-        }
+    
         successMessageVisible = true;
-
+    
+        // Oyuncuyu titret ve görsel elemanları düzenle
         shakePlayer(1000);
-
+    
         ctx.clearRect(0, 0, c.width, c.height);
         drawBoard();
         drawImage(imgX, imgY);
-        ctx.fillStyle = "red";
-        ctx.font = "30px Freckle Face";
-        ctx.fillText("Süreniz Doldu!", 180, 250);
         codePanelCountdownElement.textContent = "Süre Doldu";
         updateCountdownDisplay("Süre Doldu");
-
+        
+        // Belirli bir süre sonra başarı mesajını temizleyip oyunu sıfırla
         timeout = setTimeout(() => {
             successMessageVisible = false;
             ctx.clearRect(0, 0, c.width, c.height);
             drawTarget();
             drawBoard();
             drawImage(imgX, imgY);
-            document.getElementById("level").textContent = `Level: 1`;
+            
+            ctx.fillStyle = "red";
+            ctx.font = "30px Freckle Face";
+            ctx.fillText("Süreniz Doldu!", 180, 250);
+            
             level = 1;
-        }, 3000);
+            document.getElementById("level").textContent = `Level: 1 ${level}`;
+        }, 1000);
     }
+    
 
+    // Oyun zamanlayıcını başlatan fonksiyon
     function startGameTimer() {
+        // Belirli bir süre sonra oyun zaman aşımına uğrarsa showTimeoutMessage fonksiyonunu çağır
         timeout = setTimeout(() => {
             if (successMessageVisible) {
                 return;
@@ -271,7 +309,7 @@ function initializeGame() {
         }, gameTime);
     }
 
-    startGameTimer();
+    // Oyun zamanlayıcını başlat
 
 
 

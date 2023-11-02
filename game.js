@@ -15,6 +15,7 @@ function initializeGame() {
     let countdownInterval = false;
     let level = 1;
     let successMessageVisible = false;
+    let allowMovement = false;
 
     // Geri sayım başlatma fonksiyonu
     function startCountdown() {
@@ -193,6 +194,7 @@ function initializeGame() {
     //play butonu
     const playButton = document.getElementById("codeGame-button-play");
     playButton.addEventListener("click", function () {
+        allowMovement = true;
         if (true) {
             if (successMessageVisible) {
                 // successMessageVisible'ı false yap
@@ -316,10 +318,13 @@ function initializeGame() {
 
     //hareketler butonlar
     document.addEventListener("keydown", function (event) {
+        if (!allowMovement) {
+            return;
+        }
+    
         if (successMessageVisible) {
             return;
         }
-
         if (event.key === "ArrowUp" && imgY > 0) {
             imgY -= tileSize;
         } else if (event.key === "ArrowDown" && imgY < (numRows - 1) * tileSize) {

@@ -38,6 +38,7 @@ function initializeGame() {
                 updateCountdownDisplay("Süreniz Doldu");
                 setTimeout(startNewLevel, 1000);
                 shakePlayer(1000);
+                level=1;
             } else {
                 // Geri sayımı güncelle ve bir saniye azalt
                 updateCountdownDisplay(countdown + " saniye");
@@ -217,6 +218,7 @@ function initializeGame() {
     //temizle
     const trashButton = document.getElementById("codeGame-button");
     trashButton.addEventListener("click", function () {
+        allowMovement = false; // Oyun başlamamışsa hareketi engelle
         // Oyunu sıfırla: seviyeyi, sayacı, görsel elemanları vb. başlangıç değerlerine döndür
         level = 1;
         document.getElementById("level").textContent = `Level: ${level}`;
@@ -224,6 +226,7 @@ function initializeGame() {
         updateCountdownDisplay("Başlat");
         codePanelCountdownElement.textContent = "Başlat";
         imgY = 0;
+        imgX = 0;
         drawBoard();
         drawImage(imgX, imgY);
         drawTarget();
@@ -255,7 +258,7 @@ function initializeGame() {
         countdown = 5;
         // Belirli bir süre sonra başarı mesajını temizleyip oyunu devam ettir
         successTimeout = setTimeout(() => {
-            successMessageVisible = false;
+            successMessageVisible = true;
             ctx.clearRect(0, 0, c.width, c.height);
             drawTarget();
             drawBoard();
@@ -293,9 +296,10 @@ function initializeGame() {
             ctx.fillStyle = "red";
             ctx.font = "30px Freckle Face";
             ctx.fillText("Süreniz Doldu!", 180, 250);
+            allowMovement = false; 
             
-            level = 1; // Burada level 1 olarak ayarlanıyor
-            document.getElementById("level").textContent = `Level: ${level}`;
+            level = 1;
+            document.getElementById("level").textContent = `Level:  ${level}`;
         }, 1000);
     }
     

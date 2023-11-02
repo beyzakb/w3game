@@ -267,7 +267,7 @@ function initializeGame() {
 
     function showTimeoutMessage() {
         // Eğer başarı mesajı gösteriliyorsa veya başarı mesajı timeout'ı varsa, işlemi sonlandır
-        if (successMessageVisible || successTimeout) {
+        if (successMessageVisible) {
             return;
         }
     
@@ -294,8 +294,8 @@ function initializeGame() {
             ctx.font = "30px Freckle Face";
             ctx.fillText("Süreniz Doldu!", 180, 250);
             
-            level = 1;
-            document.getElementById("level").textContent = `Level: 1 ${level}`;
+            level = 1; // Burada level 1 olarak ayarlanıyor
+            document.getElementById("level").textContent = `Level: ${level}`;
         }, 1000);
     }
     
